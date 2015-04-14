@@ -1,12 +1,12 @@
 <?php
 
-	require 'inc/config.php';
+	require 'app/config.php';
 
 	$q = !empty($_GET['q']) ? $_GET['q'] : '';
 
 	if (empty($q)) {
-		$user = new Site();
-		$user->home();
+		$site = new Site();
+		$site->home();
 	}
 
 	else if(preg_match('/^contact\/?$/i', $q)) {
