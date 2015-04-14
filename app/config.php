@@ -23,7 +23,7 @@ define('DB_PASS', '');
 // }
 
 
-define('BASE_PATH', 'http://batphp.dev/cour/cherry-pick/');
+define('BASE_PATH', '/api-project/');
 
 function base_url () {
 	return BASE_PATH;

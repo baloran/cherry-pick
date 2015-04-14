@@ -29,9 +29,17 @@ Class API Extends cpController {
 
 	}
 
-	function getShow () {
+	function getShow ($params) {
+		$params = explode("/", $params);
 
-		$this->getCurl();
+		$this->getCurl("https://api-v2launch.trakt.tv/search?query=".$params[2]."&type=show");
+		//score trakt, show(title), show(overview), show(year), show(images(poster(full)))
+		$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./people");
+		//cast
+		$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./progress/collection");
+		//aired, completed
+		$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./seasons/.$i./stats");
+		//find in stats which season has most views
 	}
 
 	private function cache ($url) {
