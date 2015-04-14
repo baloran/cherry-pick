@@ -17,6 +17,12 @@
 		User::news();
 	}
 
+	else if(preg_match('/^api\/getshow\/[\w-]+$/i', $q)) {
+		
+		$api = new api();
+		$api->getShow($q);
+	}
+
 	else{
 		$view = 'not-found';
 	}

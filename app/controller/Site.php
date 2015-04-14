@@ -4,6 +4,8 @@ Class Site Extends cpController {
 
 	public function home () {
 
-		$this->partials();
+		$api = new api();
+
+		$this->partials('home');
 	}
 }

@@ -1,17 +1,24 @@
-<script src="<?= base_url() ?>app/assets/js/mustache.min.js"></script>
+<form action="#" id="searchShow">
+	
+	<input type="text" id="show">
 
+	<input type="submit">
 
-<script id="template" type="x-tmpl-mustache">
-	Hello {{ name }}!
-</script>
+</form>
+
 
 <script>
-	function loadUser() {
-		var template = $('#template').html();
-		Mustache.parse(template);   // optional, speeds up future uses
-		var rendered = Mustache.render(template, {name: "Luke"});
-		$('#target').html(rendered);
-	}
-
-	loadUser();
+	
+$('#searchShow').on('submit', function() {
+	
+	console.log($("#show").val());
+	// $.ajax({
+	// 	url: '/api/getShow/' + $(this).value(),
+	// 	type: 'post',
+	// 	data: {},
+	// 	success: function (data) {
+	// 		data
+	// 	}
+	// });
+});
 </script>

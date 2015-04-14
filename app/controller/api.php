@@ -8,18 +8,30 @@ Class API Extends cpController {
 			),
 		);
 
-	function __construct {
+	function __construct () {
 
 		$this->curl = curl_init();
 	}
 
-	function get ($url, $provider) {
+	function getCurl ($url, $provider) {
+
 
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); 
 
-		return curl_exec($this->curl);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			"Content-Type: application/json",
+			"trakt-api-version: 2",
+			"trakt-api-key: [client_id]"
+		));
 
+		$data = curl_exec($this->curl);
+
+	}
+
+	function getShow () {
+
+		$this->getCurl();
 	}
 
 	private function cache ($url) {

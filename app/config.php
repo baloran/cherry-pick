@@ -23,6 +23,12 @@ define('DB_PASS', '');
 // }
 
 
+define('BASE_PATH', 'http://batphp.dev/cour/cherry-pick/');
+
+function base_url () {
+	return BASE_PATH;
+}
+
 require './core/controller.php';
 
 // Ou, en utilisant une fonction anonyme à partir de PHP 5.3.0

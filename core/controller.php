@@ -15,8 +15,8 @@ Class cpController {
 			$file = "home";
 		}
 
-		include "../partials/header.php";
-		include "../app/controller/".$file.".php";
-		include "../partials/footer.php";
+		require "./app/view/header.php";
+		require "./app/view/".$file.".php";
+		require "./app/view/footer.php";
 	}
 }
