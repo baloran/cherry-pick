@@ -19,8 +19,23 @@
 	}
 
 	else if(preg_match('/^api\/search\/[\w-]+$/i', $q)) {
+		
 		$shows = Show::search($q);
-		echo(print_r($shows,true));
+		
+		echo $shows;
+		// render the view with results list
+	}
+
+	else if(preg_match('/^api\/getinfo\/?$/i', $q)) {
+		
+		if (!empty($_POST)) {
+			
+			$shows = Show::getInfo();
+			echo $shows;
+		} else {
+
+			header('Location: '.base_url());
+		}	
 		// render the view with results list
 	}
 

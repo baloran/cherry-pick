@@ -42,6 +42,9 @@ var cherry = function () {
 	this.selectShow = $('.select-show');
 	this.selectShowUl = this.selectShow.find('ul');
 	this.oldValue = null;
+	this.showOneSelected = false;
+	this.showData = null;
+	this.laoding = null;
 
 	this.init = function () {
 
@@ -87,18 +90,43 @@ var cherry = function () {
 
 			mouseleave: function (e) {
 
-				that.showSearch.val(that.oldvalue);
+				if (!that.showOneSelected) {
+					that.showSearch.val(that.oldvalue);
+				};
 			},
 
 			click: function (e) {
 
 				that.selectShow.hide();
-				that.showSearch.val($(this).data('slug'));
+				that.showOneSelected = true;
+				that.showSearch.val($(this).text());
+				that.loading = 'loading';
+				that.selectFirstShow(that.showData.data[$(this).data('id')]);
 			}
 
 
 		}, '.showname');
 
+	};
+
+	this.selectFirstShow = function (data) {
+
+		var that = this;
+
+		$.ajax({
+				url: 'api/getInfo/',
+				type: 'post',
+				data: {
+					data: data
+				},
+				success: function (data) {
+					console.log(data);
+					that.loading = 'finish';
+				},
+				error: function (err) {
+					console.log(err);
+				}
+			});
 	};
 
 	this.search = function (name) {
@@ -113,8 +141,7 @@ var cherry = function () {
 				dataType: 'json',
 				success: function (data) {
 
-					console.log(data);
-
+					that.showData = data;
 					
 					that.selectShowUl.find('li').remove();
 
@@ -122,7 +149,7 @@ var cherry = function () {
 						
 						for(var i = 0; i < 3; i++) {
 
-							that.selectShowUl.append('<li class="showname" data-slug="' + data.data[i].show.ids.slug + '"><h2>' + data.data[i].show.title + '</h2></li>');
+							that.selectShowUl.append('<li class="showname" data-id="' + i + '"><h2>' + data.data[i].show.title + '</h2></li>');
 						}
 
 					} else {

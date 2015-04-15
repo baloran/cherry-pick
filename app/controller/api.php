@@ -2,17 +2,6 @@
 
 Class API Extends cpController {
 
-	private $provider = array(
-			"trakt"=> array(
-				'header'=> array()
-			),
-		);
-
-	function __construct () {
-
-		$this->curl = curl_init();
-	}
-
 	function getCurl ($url) {
 
 
@@ -38,7 +27,7 @@ Class API Extends cpController {
 		$len = count($data);
 
 		if ($len != 0) {
-		 	$data = json(200, $data);
+		 	$data = json(200, json_decode($data));
 		} 
 		else{
 			$data = json(404, 'No data');
@@ -53,8 +42,36 @@ Class API Extends cpController {
 		//find in stats which season has most views
 	}
 
-	private function cache ($url) {
+	function getInfo () {
 
+		$this->load->model('showModel', 'show');
 
+		$show = $_POST['data'];
+
+		$data = $this->load->show->getById($_POST['data']['show']['ids']['trakt']);
+
+		if ($data->code == 404) {
+
+			$value['score'] = $show->score;
+			$value['title'] = $show->show->title;
+			$value['overview'] = $show->show->overview;
+			$value['year'] = $show->show->year;
+			$value['poster_full'] = $show->show->images->poster->full;
+			$value['poster_medium'] = $show->show->images->poster->medium;
+			$value['fanart_full'] = $show->show->images->fanart->full;
+			$value['fanart_medium'] = $show->show->images->fanart->medium;
+			$value['id_trakt'] = $show->show->ids->trakt;
+			$value['id_slug'] = $show->show->ids->slug;
+			$value['id_tvdb'] = $show->show->ids->tvdb;
+			$value['id_imdb'] = $show->show->ids->imdb;
+			$value['id_tvrage'] = $show->show->ids->tvrage;
+			$value['id_tmdb'] = $show->show->ids->tmdb;
+
+			$this->load->show->create($value);
+
+		} else {
+
+			return $data;
+		}
 	}
 }

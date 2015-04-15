@@ -1,11 +1,8 @@
 <?php
 
-Class Show {
+Class Show extends cpController {
+	
 	private $title;
-
-	function __construct(){
-
-	}
 
 	static function search($str){
 		
@@ -23,13 +20,11 @@ Class Show {
 		return $result;
 	}
 
-	static function getById($id){
+	static function getInfo(){
 		
+		$api = new api();
+		$result = $api->getInfo();
+
 	}
-
-	function getActors(){
-
-	}
-
 
 } 

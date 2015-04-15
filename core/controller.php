@@ -5,7 +5,8 @@ Class cpController {
 	function __construct() {
 
 		$this->data = new stdClass;
-		$this->laod = new Load();
+		$this->load = new Load();
+		$this->curl = curl_init();
 	}
 
 	function partials ($file){

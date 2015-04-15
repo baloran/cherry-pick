@@ -2,7 +2,7 @@
 		<h2>Cherrypick is a new website to compare two Tv shows thanks to datavisualisation !</h2>
 		<form action="search" id="searchShow">
 			<input type="text" name="series1" placeholder="ok" id="show">
-				<div class="select-show"><ul></ul></div>
+			<div class="select-show"><ul></ul></div>
 			<div class="vs"></div>
 			<input type="text" name="series2" id="series2" placeholder="oui">
 			<input type="submit" class="start">Start the experience
