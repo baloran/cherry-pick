@@ -29,9 +29,11 @@ function base_url () {
 	return BASE_PATH;
 }
 
+require './core/load.php';
 require './core/controller.php';
 
 // Ou, en utilisant une fonction anonyme à partir de PHP 5.3.0
 spl_autoload_register(function ($class) {
     include './app/controller/' . $class . '.php';
 });
+

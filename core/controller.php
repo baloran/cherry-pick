@@ -3,7 +3,9 @@
 Class cpController {
 
 	function __construct() {
+
 		$this->data = new stdClass;
+		$this->laod = new Load();
 	}
 
 	function partials ($file){
