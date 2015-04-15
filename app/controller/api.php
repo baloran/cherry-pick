@@ -20,11 +20,10 @@ Class API Extends cpController {
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); 
 		curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false); 
 
-
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
 			"Content-Type: application/json",
 			"trakt-api-version: 2",
-			"trakt-api-key: 84b74ccaa16899d32db18adac8711d6f329c8c646e6ef28688352b7fa72c9d50"
+			"trakt-api-key: ".TRAKT_API_KEY
 		));
 
 		$data = curl_exec($this->curl);
@@ -35,11 +34,14 @@ Class API Extends cpController {
 	function search($params) {
 		$params = explode("/", $params);
 		$data = $this->getCurl("https://api-v2launch.trakt.tv/search?query=".$params[2]."&type=show");
-		if ($data != false) {
-		 	$data = json_decode($data, true);
+
+		$len = count($data);
+
+		if ($len != 0) {
+		 	$data = json(200, $data);
 		} 
 		else{
-			$data = null;
+			$data = json(404, 'No data');
 		}
 		return $data;
 		//score trakt, show(title), show(overview), show(year), show(images(poster(full)))

@@ -1,6 +1,7 @@
 <?php
 
 	require 'app/config.php';
+	require 'core/helper/json.php';
 
 	$q = !empty($_GET['q']) ? $_GET['q'] : '';
 
