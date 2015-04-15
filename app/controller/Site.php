@@ -6,6 +6,8 @@ Class Site Extends cpController {
 
 		$api = new api();
 
+		error_log(print_r($api,true));
+		
 		$this->partials('home');
 	}
 }

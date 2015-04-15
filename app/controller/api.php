@@ -13,32 +13,41 @@ Class API Extends cpController {
 		$this->curl = curl_init();
 	}
 
-	function getCurl ($url, $provider) {
+	function getCurl ($url) {
 
 
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); 
+		curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false); 
 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+
+		curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
 			"Content-Type: application/json",
 			"trakt-api-version: 2",
-			"trakt-api-key: [client_id]"
+			"trakt-api-key: 84b74ccaa16899d32db18adac8711d6f329c8c646e6ef28688352b7fa72c9d50"
 		));
 
 		$data = curl_exec($this->curl);
+		return $data;
 
 	}
 
-	function getShow ($params) {
+	function search($params) {
 		$params = explode("/", $params);
-
-		$this->getCurl("https://api-v2launch.trakt.tv/search?query=".$params[2]."&type=show");
+		$data = $this->getCurl("https://api-v2launch.trakt.tv/search?query=".$params[2]."&type=show");
+		if ($data != false) {
+		 	$data = json_decode($data, true);
+		} 
+		else{
+			$data = null;
+		}
+		return $data;
 		//score trakt, show(title), show(overview), show(year), show(images(poster(full)))
-		$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./people");
+		//$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./people");
 		//cast
-		$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./progress/collection");
+		//$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./progress/collection");
 		//aired, completed
-		$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./seasons/.$i./stats");
+		//$this->getCurl("https://api-v2launch.trakt.tv/shows/.$params[2]./seasons/.$i./stats");
 		//find in stats which season has most views
 	}
 

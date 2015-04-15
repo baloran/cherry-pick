@@ -17,10 +17,10 @@
 		User::news();
 	}
 
-	else if(preg_match('/^api\/getshow\/[\w-]+$/i', $q)) {
-		
-		$api = new api();
-		$api->getShow($q);
+	else if(preg_match('/^api\/search\/[\w-]+$/i', $q)) {
+		$shows = Show::search($q);
+		echo(print_r($shows,true));
+		// render the view with results list
 	}
 
 	else{
