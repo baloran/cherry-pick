@@ -162,9 +162,52 @@ Class API Extends cpController {
 				$this->load->cast->create($show_cast, 'show_cast');
 			}
 
+			return json(200, "Added");
+
 		} else {
 
 			return json(200, "Already Exists");
 		}
+	}
+
+	function getRotten ($slug) {
+
+		$html = file_get_html('http://www.rottentomatoes.com/tv/'.$slug);
+
+		$test = $html->find('#tomato_meter_link .superPageFontColor span');
+		
+		foreach ( $test as $element ) {
+			return $element->plaintext;
+		}
+	}
+
+	function getImdb ($imdb) {
+
+		$html = file_get_html('http://www.imdb.com/title/'.$imdb);
+
+		$test = $html->find('.titlePageSprite.star-box-giga-star');
+		
+		foreach ( $test as $element ) {
+			return $element->plaintext;
+		}
+	}
+
+	function getTmdb ($tmdb) {
+
+		$url = "http://api.themoviedb.org/3/tv/".$tmdb."?api_key=bf589107b69eaea97de289221885aa25";
+
+		curl_setopt($this->curl, CURLOPT_URL, $url);
+		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); 
+		curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false); 
+
+		curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
+			"Content-Type: application/json"
+		));
+
+		$data = curl_exec($this->curl);
+
+		$data = json_decode($data);
+
+		return $data->vote_average;
 	}
 }

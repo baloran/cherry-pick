@@ -2,6 +2,7 @@
 
 	require 'app/config.php';
 	require 'core/helper/json.php';
+	require 'core/helper/simple_html_dom.php';
 
 	$q = !empty($_GET['q']) ? $_GET['q'] : '';
 
@@ -15,7 +16,9 @@
 	}
 
 	else if(preg_match('/^news\/?$/i', $q)) {
-		User::news();
+		
+		$api = new api();
+		$result = $api->getTmdb('456');
 	}
 
 	else if(preg_match('/^api\/search\/[\w-]+$/i', $q)) {
