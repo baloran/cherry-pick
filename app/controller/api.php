@@ -45,6 +45,7 @@ Class API Extends cpController {
 	function getInfo () {
 
 		$this->load->model('showModel', 'show');
+		$this->load->model('castModel', 'cast');
 
 		$show = $_POST['data'];
 
@@ -72,6 +73,20 @@ Class API Extends cpController {
 			$value['id_tmdb'] = (isset($show['show']['ids']['tmdb'])) ? $show['show']['ids']['tmdb'] : '';
 
 			$this->load->show->create($value);
+			$cast = $this->getCast($value['id_trakt']);
+
+			if (isJSON($cast)) {
+				$cast = json_decode($cast);
+			}
+
+			if ($cast->code == 200) {
+
+				return true;
+
+			} else {
+
+				return false;
+			}
 
 		} else {
 
@@ -79,10 +94,7 @@ Class API Extends cpController {
 		}
 	}
 
-	function getCast($params) {
-
-		$params = explode("/", $params);
-		$id_show = $params[2];
+	function getCast($id_show) {
 
 		$this->load->model('castModel', 'cast');
 		$db_data = $this->load->cast->getByIdShow($id_show);
@@ -120,11 +132,14 @@ Class API Extends cpController {
 				}
 
 				$this->load->cast->create_link($show_cast);
+
 			}
 
+			return json(200, "Added");
+			
 		} else {
 
-			return $db_data->data;
+			return json(200, "Already Exists");
 		}
 	}
 }
