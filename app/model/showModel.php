@@ -38,9 +38,7 @@ Class ShowModel Extends Model {
 		}
 	}
 
-	function getActors(){
 
-	}
 
 	function create ($data) {
 

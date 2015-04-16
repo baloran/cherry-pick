@@ -74,4 +74,38 @@ Class API Extends cpController {
 			return $data;
 		}
 	}
+
+	function getCast($params) {
+
+		$params = explode("/", $params);
+		$id_show = $params[2];
+
+		$this->load->model('castModel', 'cast');
+		$db_data = $this->load->cast->getByIdShow($id_show);
+
+		if ($db_data->code == 404) {
+			$api_data = json_decode($this->getCurl("https://api-v2launch.trakt.tv/shows/". $id_show ."/people"));
+			$data = [];
+			foreach ($api_data->cast as $person) {
+				$value = [];
+				$value['character'] = $person->character;
+				$value['person'] = $person->person->name;
+				$value['id_trakt'] = $person->person->ids->trakt;
+				$value['id_slug'] = $person->person->ids->slug;
+				$value['id_imdb'] = $person->person->ids->imdb;
+				$value['id_tvrage'] = $person->person->ids->tvrage;
+				$value['id_tmdb'] = $person->person->ids->tmdb;
+
+				$this->load->cast->create($value);
+
+				$data[] = $value;
+			}
+
+			return $data;
+
+		} else {
+
+			return $db_data->data;
+		}
+	}
 }

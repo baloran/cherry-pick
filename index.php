@@ -35,8 +35,13 @@
 		} else {
 
 			header('Location: '.base_url());
-		}	
-		// render the view with results list
+		}
+	}
+
+	else if(preg_match('/^api\/getcast\/[\d]+$/i', $q)) {
+		
+		$cast = Cast::getCast($q);
+		echo $cast;
 	}
 
 	else{

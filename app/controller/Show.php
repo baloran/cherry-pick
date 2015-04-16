@@ -1,8 +1,6 @@
 <?php
 
 Class Show extends cpController {
-	
-	private $title;
 
 	static function search($str){
 		
@@ -26,5 +24,4 @@ Class Show extends cpController {
 		$result = $api->getInfo();
 
 	}
-
 } 
