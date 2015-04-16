@@ -30,7 +30,6 @@
 	}
 
 	else if(preg_match('/^api\/getinfo\/?$/i', $q)) {
-		
 		if (!empty($_POST)) {
 			
 			$shows = Show::getInfo();
@@ -39,6 +38,12 @@
 
 			header('Location: '.base_url());
 		}
+	}
+
+	else if(preg_match('/^api\/getallinfo\/?$/i', $q)) {
+		
+		$shows = Show::getAllInfo($q);
+		echo $shows;
 	}
 
 	else{

@@ -84,8 +84,10 @@ Class API Extends cpController {
 			$value['id_tvrage'] = (isset($show['show']['ids']['tvrage'])) ? $show['show']['ids']['tvrage'] : '';
 			$value['id_tmdb'] = (isset($show['show']['ids']['tmdb'])) ? $show['show']['ids']['tmdb'] : '';
 
-			$this->load->show->create($value, 'shows');
+			$this->getRatesAndCreate($value);
+
 			$cast = $this->getCast($value['id_trakt']);
+
 
 			if (isJSON($cast)) {
 				$cast = json_decode($cast);
@@ -174,31 +176,38 @@ Class API Extends cpController {
 		}
 	}
 
-	function getRotten ($slug) {
+	function getRatesAndCreate ($value) {
 
-		$html = file_get_html('http://www.rottentomatoes.com/tv/'.$slug);
+		//rotten
+
+		$html = file_get_html('http://www.rottentomatoes.com/tv/'.$value['id_slug']);
 
 		$test = $html->find('#tomato_meter_link .superPageFontColor span');
 		
 		foreach ( $test as $element ) {
-			return $element->plaintext;
+			$value['rotten_rate'] = $element->plaintext;
 		}
+
+		$this->getImdb($value);
+
 	}
 
-	function getImdb ($imdb) {
+	function getImdb ($value) {
 
-		$html = file_get_html('http://www.imdb.com/title/'.$imdb);
+		$html = file_get_html('http://www.imdb.com/title/'.$value['id_imdb']);
 
 		$test = $html->find('.titlePageSprite.star-box-giga-star');
 		
 		foreach ( $test as $element ) {
-			return $element->plaintext;
+			$value['imdb_rate'] = $element->plaintext;
 		}
+
+		$this->getTmdb($value);
 	}
 
-	function getTmdb ($tmdb) {
+	function getTmdb ($value) {
 
-		$url = "http://api.themoviedb.org/3/tv/".$tmdb."?api_key=bf589107b69eaea97de289221885aa25";
+		$url = "http://api.themoviedb.org/3/tv/".$value['id_tmdb']."?api_key=bf589107b69eaea97de289221885aa25";
 
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); 
@@ -212,6 +221,18 @@ Class API Extends cpController {
 
 		$data = json_decode($data);
 
-		return $data->vote_average;
+		$value['tmdb_rate'] = $data->vote_average;
+
+		$this->load->show->create($value, 'shows');
+	}
+
+	function getAllInfo ($id){
+		$id = explode("/", $id);
+		$id = $id[2];
+
+		$infos = $this->load->show->getAllInfo($id);
+
+		return $infos;
+
 	}
 }
