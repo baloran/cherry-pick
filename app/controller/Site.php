@@ -10,4 +10,11 @@ Class Site Extends cpController {
 		
 		$this->partials('home');
 	}
+
+	public function compare () {
+
+		$api = new api();
+
+		$this->partials('compareIt');
+	}
 }

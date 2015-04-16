@@ -30,8 +30,8 @@
 	<div class="text">
 		<div class="vs">
 			<div class="img_vs">
-				<img src="../img/polygon.png" alt="Versus" id="pol1">
-				<img src="../img/polygon.png" alt="Versus" id="pol2">
+				<img src="<?= base_url() ?>app/assets/img/polygon.png" alt="Versus" id="pol1">
+				<img src="<?= base_url() ?>app/assets/img/polygon.png" alt="Versus" id="pol2">
 				<h3>VS</h3>
 			</div>
 		</div>

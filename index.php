@@ -15,12 +15,6 @@
 		User::contact();
 	}
 
-	else if(preg_match('/^news\/?$/i', $q)) {
-		
-		$api = new api();
-		$result = $api->getTmdb('456');
-	}
-
 	else if(preg_match('/^api\/search\/[\w-]+$/i', $q)) {
 		
 		$shows = Show::search($q);
@@ -40,10 +34,18 @@
 		}
 	}
 
+
 	else if(preg_match('/^api\/getallinfo\/?$/i', $q)) {
 		
 		$shows = Show::getAllInfo($q);
 		echo $shows;
+
+	}
+
+	else if(preg_match('/^compare\/?$/i', $q)) {
+		
+		$site = new Site();
+		$site->compare();
 	}
 
 	else{
