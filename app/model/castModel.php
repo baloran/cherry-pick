@@ -33,39 +33,4 @@ Class CastModel Extends Model {
 		}
 
 	}
-
-
-	function create ($data) {
-
-		$keys = array_keys($data);
-		$fields = '`'.implode('`, `',$keys).'`';
-
-		$placeholder = substr(str_repeat("?,",count($keys)),0,-1);
-
-		$sql = 'INSERT INTO `cast` ('.$fields.') VALUES ('.$placeholder.')';
-
-		$exec = $this->db->prepare($sql);
-
-		$exec->execute(array_values($data));
-
-		return $this->db->lastInsertId();
-
-	}
-
-	function create_link ($data){
-
-		$keys = array_keys($data);
-		$fields = '`'.implode('`, `',$keys).'`';
-
-		$placeholder = substr(str_repeat("?,",count($keys)),0,-1);
-
-		$sql = 'INSERT INTO `show_cast` ('.$fields.') VALUES ('.$placeholder.')';
-
-		$exec = $this->db->prepare($sql);
-
-		$exec->execute(array_values($data));
-
-		return $this->db->lastInsertId();
-
-	}
 } 

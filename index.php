@@ -38,12 +38,6 @@
 		}
 	}
 
-	else if(preg_match('/^api\/getcast\/[\d]+$/i', $q)) {
-		
-		$cast = Cast::getCast($q);
-		echo $cast;
-	}
-
 	else{
 		$view = 'not-found';
 	}

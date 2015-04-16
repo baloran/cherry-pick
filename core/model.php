@@ -20,4 +20,21 @@ Class Model {
 			die('Could not connect');
 		}
 	}
+
+	function create ($data, $table) {
+
+		$keys = array_keys($data);
+		$fields = '`'.implode('`, `',$keys).'`';
+
+		$placeholder = substr(str_repeat("?,",count($keys)),0,-1);
+
+		$sql = 'INSERT INTO `'. $table .'` ('.$fields.') VALUES ('.$placeholder.')';
+
+		$exec = $this->db->prepare($sql);
+
+		$exec->execute(array_values($data));
+
+		return $this->db->lastInsertId();
+
+	}
 }

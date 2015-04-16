@@ -24,4 +24,5 @@ Class Show extends cpController {
 		$result = $api->getInfo();
 
 	}
+
 } 

@@ -49,18 +49,30 @@ Class API Extends cpController {
 
 		$show = $_POST['data'];
 
-		$data = $this->load->show->getById($_POST['data']['show']['ids']['trakt']);
+		$id_trakt = $_POST['data']['show']['ids']['trakt'];
+
+		$data = $this->load->show->getById($id_trakt);
+
+		$info = $this->load->show->getSeasonsInfo($id_trakt);
+
+		$episodes = json_decode($this->getCurl("https://api-v2launch.trakt.tv/shows/". $id_trakt ."?extended=full"));
+		$episodes = $episodes->aired_episodes;
 
 		if (isJSON($data)) {
 			$data = json_decode($data);
 		}
 
-		if ($data->code == 404) {
+		if (isJSON($info)) {
+			$info = json_decode($info);
+		}
 
+		if ($data->code == 404) {
+			$value = [];
 			$value['score'] = (isset($show['score'])) ? $show['score'] : '';
 			$value['title'] = (isset($show['show']['title'])) ? $show['show']['title'] : '';
 			$value['overview'] = (isset($show['show']['overview'])) ? $show['show']['overview'] : '';
 			$value['year'] = (isset($show['show']['year'])) ? $show['show']['year'] : '';
+			$value['total_episodes'] = (isset($episodes)) ? $episodes : '';
 			$value['poster_full'] = (isset($show['show']['images']['poster']['full'])) ? $show['show']['images']['poster']['full'] : '';
 			$value['poster_medium'] = (isset($show['show']['images']['poster']['medium'])) ? $show['show']['images']['poster']['medium'] : '';
 			$value['fanart_full'] = (isset($show['show']['images']['fanart']['full'])) ? $show['show']['images']['fanart']['full'] : '';
@@ -92,6 +104,22 @@ Class API Extends cpController {
 
 			return $data;
 		}
+
+		if ($info->code == 404) {
+			$value = [];
+
+			for ($i=1; $i < $info->data->nbSeasons; $i++) { 
+				$value['id_trakt'] = $id_trakt;
+				$value['num_season'] = $i;
+				$value['viewers'] = (isset($info->data->viewers[$i])) ? $info->data->viewers[$i] : '';
+
+				$this->load->show->create($value, 'seasons');
+			}
+
+		} else {
+
+			return $info;
+		}
 	}
 
 	function getCast($id_show) {
@@ -117,7 +145,7 @@ Class API Extends cpController {
 				$value['id_tvrage'] = (isset($person->person->ids->tvrage)) ? $person->person->ids->tvrage  : '';
 				$value['id_tmdb'] = (isset($person->person->ids->tmdb)) ? $person->person->ids->tmdb  : '';
 
-				$show_cast['character_name'] = $person->character;
+				$show_cast['character_name'] = (isset($person->character)) ? $person->character : '';
 				$show_cast['show_id'] = $id_show;
 				$show_cast['cast_id'] = $value['id_trakt'];
 
@@ -128,15 +156,12 @@ Class API Extends cpController {
 				}
 
 				if ($actor_in_db->code == 404) {
-					$this->load->cast->create($value);
+					$this->load->cast->create($value, 'cast');
 				}
 
-				$this->load->cast->create_link($show_cast);
-
+				$this->load->cast->create($show_cast, 'show_cast');
 			}
 
-			return json(200, "Added");
-			
 		} else {
 
 			return json(200, "Already Exists");

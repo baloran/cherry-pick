@@ -19,8 +19,6 @@ Class ShowModel Extends Model {
 	}
 
 	function getById($id){
-			
-
 		$prepare = $this->db->prepare('SELECT * FROM `shows` WHERE id_trakt = :id');
 
 		$prepare->bindParam(':id', $id);
@@ -38,22 +36,33 @@ Class ShowModel Extends Model {
 		}
 	}
 
+	function getSeasonsInfo($id){
 
+		$data = [];
 
-	function create ($data) {
+		$api = new api();
 
-		$keys = array_keys($data);
-		$fields = '`'.implode('`, `',$keys).'`';
+		$api_data = json_decode($api->getCurl("https://api-v2launch.trakt.tv/shows/". $id ."/seasons"));
 
-		$placeholder = substr(str_repeat("?,",count($keys)),0,-1);
+		$result = count($api_data)-1; //Without pre season
 
-		$sql = 'INSERT INTO `shows` ('.$fields.') VALUES ('.$placeholder.')';
+		$viewers = [];
+		for ($i=1; $i < (1+$result); $i++) { 
+			$infoView = json_decode($api->getCurl("https://api-v2launch.trakt.tv/shows/". $id ."/"."seasons/". $i ."/stats"));
+			$viewers[$i] = $infoView->watchers;
+		}
 
-		$exec = $this->db->prepare($sql);
+		$data = array(
+			'nbSeasons' => $result,
+			'viewers' =>$viewers,
+		);
 
-		$exec->execute(array_values($data));
+		$len = count($data);
 
-		return $this->db->lastInsertId();
-
+		if ($len == 0) {
+			return json(404, null);
+		} else {
+			return json(200, $data);
+		}
 	}
 } 
