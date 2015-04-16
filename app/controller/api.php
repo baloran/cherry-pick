@@ -84,7 +84,7 @@ Class API Extends cpController {
 			$value['id_tvrage'] = (isset($show['show']['ids']['tvrage'])) ? $show['show']['ids']['tvrage'] : '';
 			$value['id_tmdb'] = (isset($show['show']['ids']['tmdb'])) ? $show['show']['ids']['tmdb'] : '';
 
-			$this->load->show->create($value);
+			$this->load->show->create($value, 'shows');
 			$cast = $this->getCast($value['id_trakt']);
 
 			if (isJSON($cast)) {
@@ -93,7 +93,26 @@ Class API Extends cpController {
 
 			if ($cast->code == 200) {
 
-				return true;
+				if ($info->code == 200) {
+					$value = [];
+
+					for ($i=1; $i < $info->data->nbSeasons; $i++) {
+
+						$value['id_trakt'] = $id_trakt;
+						$value['num_season'] = $i;
+						
+						$s = 'season'.$i;
+						$info->data->viewers->$s = json_encode($info->data->viewers->$s);
+
+						$value['viewers'] = (isset($info->data->viewers->$s)) ? $info->data->viewers->$s : '';
+
+						$this->load->show->create($value, 'seasons');
+					}
+
+				} else {
+
+					return $info;
+				}
 
 			} else {
 
@@ -105,21 +124,6 @@ Class API Extends cpController {
 			return $data;
 		}
 
-		if ($info->code == 404) {
-			$value = [];
-
-			for ($i=1; $i < $info->data->nbSeasons; $i++) { 
-				$value['id_trakt'] = $id_trakt;
-				$value['num_season'] = $i;
-				$value['viewers'] = (isset($info->data->viewers[$i])) ? $info->data->viewers[$i] : '';
-
-				$this->load->show->create($value, 'seasons');
-			}
-
-		} else {
-
-			return $info;
-		}
 	}
 
 	function getCast($id_show) {

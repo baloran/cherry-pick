@@ -49,12 +49,12 @@ Class ShowModel Extends Model {
 		$viewers = [];
 		for ($i=1; $i < (1+$result); $i++) { 
 			$infoView = json_decode($api->getCurl("https://api-v2launch.trakt.tv/shows/". $id ."/"."seasons/". $i ."/stats"));
-			$viewers[$i] = $infoView->watchers;
+			$viewers['season'.$i] = $infoView->watchers;
 		}
 
 		$data = array(
 			'nbSeasons' => $result,
-			'viewers' =>$viewers,
+			'viewers' => $viewers,
 		);
 
 		$len = count($data);
