@@ -56,20 +56,20 @@ Class API Extends cpController {
 
 		if ($data->code == 404) {
 
-			$value['score'] = $show['score'];
-			$value['title'] = $show['show']['title'];
-			$value['overview'] = $show['show']['overview'];
-			$value['year'] = $show['show']['year'];
-			$value['poster_full'] = $show['show']['images']['poster']['full'];
-			$value['poster_medium'] = $show['show']['images']['poster']['medium'];
-			$value['fanart_full'] = $show['show']['images']['fanart']['full'];
-			$value['fanart_medium'] = $show['show']['images']['fanart']['medium'];
-			$value['id_trakt'] = $show['show']['ids']['trakt'];
-			$value['id_slug'] = $show['show']['ids']['slug'];
-			$value['id_tvdb'] = $show['show']['ids']['tvdb'];
-			$value['id_imdb'] = $show['show']['ids']['imdb'];
-			$value['id_tvrage'] = $show['show']['ids']['tvrage'];
-			$value['id_tmdb'] = $show['show']['ids']['tmdb'];
+			$value['score'] = (isset($show['score'])) ? $show['score'] : '';
+			$value['title'] = (isset($show['show']['title'])) ? $show['show']['title'] : '';
+			$value['overview'] = (isset($show['show']['overview'])) ? $show['show']['overview'] : '';
+			$value['year'] = (isset($show['show']['year'])) ? $show['show']['year'] : '';
+			$value['poster_full'] = (isset($show['show']['images']['poster']['full'])) ? $show['show']['images']['poster']['full'] : '';
+			$value['poster_medium'] = (isset($show['show']['images']['poster']['medium'])) ? $show['show']['images']['poster']['medium'] : '';
+			$value['fanart_full'] = (isset($show['show']['images']['fanart']['full'])) ? $show['show']['images']['fanart']['full'] : '';
+			$value['fanart_medium'] = (isset($show['show']['images']['fanart']['medium'])) ? $show['show']['images']['fanart']['medium'] : '';
+			$value['id_trakt'] = (isset($show['show']['ids']['trakt'])) ? $show['show']['ids']['trakt'] : '';
+			$value['id_slug'] = (isset($show['show']['ids']['slug'])) ? $show['show']['ids']['slug'] : '';
+			$value['id_tvdb'] = (isset($show['show']['ids']['tvdb'])) ? $show['show']['ids']['tvdb'] : '';
+			$value['id_imdb'] = (isset($show['show']['ids']['imdb'])) ? $show['show']['ids']['imdb'] : '';
+			$value['id_tvrage'] = (isset($show['show']['ids']['tvrage'])) ? $show['show']['ids']['tvrage'] : '';
+			$value['id_tmdb'] = (isset($show['show']['ids']['tmdb'])) ? $show['show']['ids']['tmdb'] : '';
 
 			$this->load->show->create($value);
 
@@ -87,25 +87,40 @@ Class API Extends cpController {
 		$this->load->model('castModel', 'cast');
 		$db_data = $this->load->cast->getByIdShow($id_show);
 
+		if (isJSON($db_data)){
+			$db_data = json_decode($db_data);
+		}
+
 		if ($db_data->code == 404) {
 			$api_data = json_decode($this->getCurl("https://api-v2launch.trakt.tv/shows/". $id_show ."/people"));
-			$data = [];
+			// var_dump($api_data);
+			// die();
 			foreach ($api_data->cast as $person) {
 				$value = [];
-				$value['character'] = $person->character;
-				$value['person'] = $person->person->name;
-				$value['id_trakt'] = $person->person->ids->trakt;
-				$value['id_slug'] = $person->person->ids->slug;
-				$value['id_imdb'] = $person->person->ids->imdb;
-				$value['id_tvrage'] = $person->person->ids->tvrage;
-				$value['id_tmdb'] = $person->person->ids->tmdb;
+				$show_cast = [];
+				$value['person'] = (isset($person->person->name)) ? $person->person->name : '';
+				$value['id_trakt'] = (isset($person->person->ids->trakt)) ? $person->person->ids->trakt  : '';
+				$value['id_slug'] = (isset($person->person->ids->slug)) ? $person->person->ids->slug  : '';
+				$value['id_imdb'] = (isset($person->person->ids->imdb)) ? $person->person->ids->imdb  : '';
+				$value['id_tvrage'] = (isset($person->person->ids->tvrage)) ? $person->person->ids->tvrage  : '';
+				$value['id_tmdb'] = (isset($person->person->ids->tmdb)) ? $person->person->ids->tmdb  : '';
 
-				$this->load->cast->create($value);
+				$show_cast['character_name'] = $person->character;
+				$show_cast['show_id'] = $id_show;
+				$show_cast['cast_id'] = $value['id_trakt'];
 
-				$data[] = $value;
+				$actor_in_db = $this->load->cast->getActorById($value['id_trakt']);
+
+				if (isJSON($actor_in_db)){
+					$actor_in_db = json_decode($actor_in_db);
+				}
+
+				if ($actor_in_db->code == 404) {
+					$this->load->cast->create($value);
+				}
+
+				$this->load->cast->create_link($show_cast);
 			}
-
-			return $data;
 
 		} else {
 
