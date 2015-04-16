@@ -149,7 +149,7 @@ var cherry = function () {
 						
 						for(var i = 0; i < 3; i++) {
 
-							that.selectShowUl.append('<li class="showname" data-id="' + i + '"><h2>' + data.data[i].show.title + '</h2></li>');
+							that.selectShowUl.append('<li class="showname" data-id="' + i + '"><img src="' + data.data[i].show.images.poster.medium + '" alt="" width="72px"/><h2>' + data.data[i].show.title + '</h2></li>');
 						}
 
 					} else {
