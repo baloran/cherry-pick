@@ -1,10 +1,8 @@
 $( "#animation" ).click(function() {
-  $( "#go_left, #go_right" ).addClass('opened', function () {
-  	
-  	setTimeout(function() {
-	      $('.container').css("display", 'none');
-	}, 1000);
-  });
+  $( "#go_left, #go_right" ).addClass('opened', 1000, 'ease-in');
+  setTimeout(function(){
+$('.container').css("display", 'none');
+  }, 1000);
 
 
   // $("#anim_opacity").animate({

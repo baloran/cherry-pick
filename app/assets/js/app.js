@@ -102,7 +102,12 @@ var cherry = function () {
 				that.showOneSelected = true;
 				that.showSearch.val($(this).text());
 				that.loading = 'loading';
-				that.selectFirstShow(that.showData.data[$(this).data('id')]);
+
+				if (window.location.href.search('compare') != -1) {
+					that.selectSecondShow(that.showData.data[$(this).data('id')]);
+				} else {
+					that.selectFirstShow(that.showData.data[$(this).data('id')]);
+				}
 
 				$('#formShow').fadeOut();
 				$('.loader-home').fadeIn();
@@ -110,11 +115,6 @@ var cherry = function () {
 
 
 		}, '.showname');
-
-		$('#secondShowCompare').on( 'submit', function () {
-
-			window.location.assign('compare/' + window.location.assign('compare/'+ $(this).data('first') + '/' + $('#second_show_value')));
-		});
 
 	};
 
@@ -131,8 +131,46 @@ var cherry = function () {
 				success: function (succ) {
 
 					that.loading = 'finish';
-					console.log(data);
+
 					window.location.assign('compare/'+ data.show.ids.trakt+ '/');
+				},
+				error: function (err) {
+					console.log(err);
+				}
+			});
+	};
+
+	this.selectSecondShow = function (data) {
+
+		var that = this;
+
+		$.ajax({
+				url: 'api/getInfo/',
+				type: 'post',
+				data: {
+					data: data
+				},
+				success: function (succ) {
+
+					that.loading = 'finish';
+
+					$.ajax({
+						url: 'api/getInfo/',
+						type: 'post',
+						data: {
+							data: data
+						},
+						success: function (succ) {
+
+							that.loading = 'finish';
+
+							window.location.assign( window.location.href + data.show.ids.trakt + '/');
+						},
+						error: function (err) {
+							console.log(err);
+						}
+					});
+
 				},
 				error: function (err) {
 					console.log(err);
@@ -144,10 +182,19 @@ var cherry = function () {
 
 		var that = this;
 
-		var slug = name.replace(/\s/g,"-");
+		var slug = name.replace(/\s/g,"-");	
+
+
+		var u = window.location.href.search('compare');
+
+		if (u != -1) {
+			var url = window.location.href.substr(0, u) + '/api/search/' + slug;
+		} else {
+			var url = 'api/search/' + slug;
+		}
 
 		$.ajax({
-				url: 'api/search/' + slug,
+				url: url,
 				type: 'get',
 				dataType: 'json',
 				success: function (data) {

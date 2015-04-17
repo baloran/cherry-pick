@@ -65,7 +65,7 @@
 		$data->show = $data->show->data;
 
 		if (!empty($slug[2])) {
-			$caca = $api->getAllInfo($slug[2]);
+			$data->show1 = $api->getAllInfo($slug[2]);
 		}
 
 		$site->getInfo($data);

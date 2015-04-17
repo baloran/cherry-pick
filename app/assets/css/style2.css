@@ -657,4 +657,21 @@ footer .fb img {
   top:35%;
 }
 
+.select-show {
+   transform: translate(30%, 0%);
+   top:45vh;
+   width:40%;
+   position: absolute;
+}
+
+.select-show li{
+  display: inline-block;
+  margin:0 10px;
+  cursor:pointer;
+}
+
+.select-show img{
+  width:90px;
+}
+
 /*# sourceMappingURL=style2.css.map */

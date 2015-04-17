@@ -19,6 +19,10 @@ Class Site Extends cpController {
 
 		$this->data->show = $data->show;
 
+		if (isset($data->show1)) {
+			$this->data->show1 = $data->show1;
+		}
+
 		$this->partials('compare');
 	}
 }

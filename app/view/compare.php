@@ -85,7 +85,7 @@
 				</div>
 				<?php else: ?>
 				<div class="right text-left">
-					<form action="search" id="formShow">
+						<form action="search" id="formShow">
 						<input type="text" name="series1" class="series1" placeholder='Cherchez une série. Ex:"The Walking Dead"' id="show">
 						</br>
 						<div class="select-show"><ul></ul></div>
