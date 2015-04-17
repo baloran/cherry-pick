@@ -12,7 +12,8 @@
 	}
 
 	else if(preg_match('/^contact\/?$/i', $q)) {
-		User::contact();
+		
+		echo "salut";
 	}
 
 	else if(preg_match('/^api\/search\/[\w-]+$/i', $q)) {
@@ -42,10 +43,13 @@
 
 	}
 
-	else if(preg_match('/^compare\/?$/i', $q)) {
-		
+	else if(preg_match('/^compare\/[\w-]+$/i', $q)) {
+			
+		$slug = explode('/', $q);
+
 		$site = new Site();
-		$site->compare();
+		$data = $site->getInfo($slug[1]);
+
 	}
 
 	else{

@@ -21,6 +21,7 @@ Class API Extends cpController {
 	}
 
 	function search($params) {
+
 		$params = explode("/", $params);
 		$data = $this->getCurl("https://api-v2launch.trakt.tv/search?query=".$params[2]."&type=show");
 
@@ -227,8 +228,8 @@ Class API Extends cpController {
 	}
 
 	function getAllInfo ($id){
-		$id = explode("/", $id);
-		$id = $id[2];
+
+		$this->load->model('showModel', 'show');
 
 		$infos = $this->load->show->getAllInfo($id);
 

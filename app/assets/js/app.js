@@ -35,6 +35,21 @@
     });
 })(jQuery);
 
+;(function ($) {
+    var oAddClass = $.fn.addClass;
+    $.fn.addClass = function () {
+        for (var i in arguments) {
+            var arg = arguments[i];
+            if ( !! (arg && arg.constructor && arg.call && arg.apply)) {
+                arg();
+                delete arg;
+            }
+        }
+        return oAddClass.apply(this, arguments);
+    }
+
+})(jQuery);
+
 var cherry = function () {
 
 	this.searchBox = $('#searchShow');
@@ -62,20 +77,6 @@ var cherry = function () {
 			that.search($(this).val());
 
 		});
-
-
-		// that.selectShow.on('hover', function () {
-
-		// 	var oldValue = that.show.val();
-
-		// 	var newValue = this.text();
-
-		// 	console.log("sakyt")
-
-		// 	console.log(oldValue);
-		// 	console.log(newValue);
-
-		// }, 'li');
 
 		that.selectShow.on({
 

@@ -8,13 +8,28 @@ Class Site Extends cpController {
 
 		error_log(print_r($api,true));
 		
+		$this->data->css = 'style';
+
 		$this->partials('home');
 	}
 
-	public function compare () {
+	public function getInfo ($id) {
 
 		$api = new api();
 
-		$this->partials('compareIt');
+		$data = json_decode($api->getAllInfo($id));
+
+		if ($data->code == 404) {
+			
+			header('Location: '.BASE_PATH);
+			exit();
+
+		}
+
+		$this->data->show = $data->data;
+
+		$this->data->css = 'style2';
+
+		$this->partials('compare');
 	}
 }

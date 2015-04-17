@@ -1,8 +1,8 @@
 <section class="container">
 		<div class="go_left" id="go_left">
 			<div class="content">
-				<div class="background" >
-					<input type="text" class="title">
+				<div class="background" style="background-image:url('<?= $show->fanart_full ?>')" >
+					<input type="text" class="title" value="<?= $show->title ?>">
 				</div>
 			</div>
 		</div>
@@ -25,7 +25,7 @@
 				<h2>THE DUEL</h2>
 				<div class="vs">
 					<div class="serie1">
-						<h3>True detective</h3>
+						<h3><?= $show->title ?></h3>
 					</div>
 					<div class="serie2">
 						<h3>The walking dead</h3>
@@ -39,34 +39,21 @@
 				<h3>SYNOPSIS / GENRE / TOP ACTOR</h3>
 				<div class="left text-right">
 					<ul class="actor">
-						<li>
-							<img src="img/rick.png" alt="Rick">
-							<div class="meta">
-								<h5>RICK</h5>
-								<span>Andrew Lincolm</span>
-							</div>
-						</li>
-						<li>
-							<img src="img/rick.png" alt="Rick">
-							<div class="meta">
-								<h5>RICK</h5>
-								<span>Andrew Lincolm</span>
-							</div>
-						</li>
-						<li>
-							<img src="img/rick.png" alt="Rick">
-							<div class="meta">
-								<h5>RICK</h5>
-								<span>Andrew Lincolm</span>
-							</div>
-						</li>
+						<?php foreach ($show->cast as $cast): ?>
+							<li>
+								<img src="img/rick.png" alt="Rick">
+								<div class="meta">
+									<h5><?= $cast->character_name ?></h5>
+									<span>Andrew Lincolm</span>
+								</div>
+							</li>
+						<?php endforeach ?>
 					</ul>
 					<h4>Detective</h4>
-					<p>This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo.
-					</p>
+					<p><?= $show->overview ?></p>
 				</div>
 				<div class="right text-left">
-					<ul class="actor">
+					<ul class="actor" id="actors">
 						<li>
 							<img src="img/rick.png" alt="Rick">
 							<div class="meta">
@@ -89,8 +76,8 @@
 							</div>
 						</li>
 					</ul>
-					<h4>Horror</h4>
-					<p>This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc.</p>
+					<h4 id="genre">Horror</h4>
+					<p id="overview">This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc.</p>
 				</div>
 			</article>
 		<article class="fullpage data">
@@ -101,7 +88,7 @@
 					<h2>NUMBER SEASONS / EPISODE</h2>
 					<div class="season">
 						<div class="numbers1">
-							<span id="number_blue1">1</span> VS <span id="number_yellow1">5</span>
+							<span id="number_blue1"><?= count($show->seasons) ?></span> VS <span id="number_yellow1"></span>
 						</div>
 						<canvas id="season" height="140" width="140">
 						</canvas>
@@ -109,7 +96,7 @@
 					</div>
 					<div class="episodes">
 						<div class="numbers2">
-							<span id="number_blue2">21</span> VS <span id="number_yellow2">121</span>
+							<span id="number_blue2"><?= $show->total_episodes ?></span> VS <span id="number_yellow2"></span>
 						</div>
 						<canvas id="episodes" height="140" width="140">
 						</canvas>
@@ -154,12 +141,12 @@
 		////////////////// DONUT N°1 /////////////////////
 		var season_data = [
 		    {
-		        value: 5,
+		        value: <?= count($show->seasons) ?>,
 		        color:"rgba(246,232,1,1)",
 		        label: "Yellow"
 		    },
 		    {
-		        value: 1,
+		        value: 0,
 		        color: "rgba(60,107,147,1)",
 		        label: "Blue"
 		    }
@@ -176,7 +163,7 @@
    	////////////////// DONUT N°2 /////////////////////
    	var episodes_data = [
 		    {
-		        value: 121,
+		        value: <?= $show->total_episodes ?>,
 		        color:"rgba(246,232,1,1)",
 		        responsive: true,
 		        label: "Yellow"
@@ -197,6 +184,7 @@
     //////////////////////////////////////////////////
     ////////////////// NUMBER VIEWER /////////////////////
     var graph_data = {
+
     	labels: ["0","1", "2", "3", "4", "5"],
     	datasets: [
         	{

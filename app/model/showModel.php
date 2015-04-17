@@ -67,17 +67,27 @@ Class ShowModel Extends Model {
 	}
 
 	function getAllInfo ($id) {
-		$prepare = $this->db->prepare('SELECT title, overview, year, poster_full, total_episodes, score, rotten_rate, imdb_rate, tmdb_rate FROM `shows` WHERE id_trakt = :id');
-		$prepare = $this->db->prepare('SELECT person, character_name FROM `cast` c INNER JOIN show_cast sc ON c.id_trakt = sc.cast_id WHERE sc.show_id = :id LIMIT 3');
-		$prepare = $this->db->prepare('SELECT viewers FROM `seasons` s INNER JOIN shows sh ON s.id_trakt = sh.id_trakt WHERE s.id_trakt = :id');
-		$prepare->bindParam(':id', $id);
 
-		$prepare->execute();
+		$data = new stdClass();
 
-		$data = $prepare->fetchAll();
+		$s_prepare = $this->db->prepare('SELECT * FROM `shows` as s WHERE s.id_trakt = :id');
+		$s_prepare->bindParam(':id', $id);
+		$s_prepare->execute();
+		$shows = $s_prepare->fetch();
 
-		var_dump($data);
-		die();
+		$c_prepare = $this->db->prepare('SELECT * FROM `cast` c INNER JOIN show_cast sc ON c.id_trakt = sc.cast_id WHERE sc.show_id = :id LIMIT 3');
+		$c_prepare->bindParam(':id', $id);
+		$c_prepare->execute();
+		$casts = $c_prepare->fetchAll();
+		
+		$ss_prepare = $this->db->prepare('SELECT viewers FROM `seasons` s INNER JOIN shows sh ON s.id_trakt = sh.id_trakt WHERE s.id_trakt = :id');
+		$ss_prepare->bindParam(':id', $id);
+		$ss_prepare->execute();
+		$seasons = $ss_prepare->fetchAll();
+
+		$data = $shows;
+		$data->cast = $casts;
+		$data->seasons = $seasons;
 
 		$len = count($data);
 

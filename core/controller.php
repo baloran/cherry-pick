@@ -14,12 +14,12 @@ Class cpController {
 		$array = get_object_vars($this->data);
 		extract($array);
 
-		if (!file_exists("../app/view/".$file.".php")) {
+		if (!file_exists(FOLDER."/app/view/".$file.".php")) {
 			$file = "home";
 		}
 
-		require "./app/view/header.php";
-		require "./app/view/".$file.".php";
-		require "./app/view/footer.php";
+		require FOLDER."/app/view/header.php";
+		require FOLDER."/app/view/".$file.".php";
+		require FOLDER."/app/view/footer.php";
 	}
 }
