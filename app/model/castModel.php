@@ -4,7 +4,7 @@ Class CastModel Extends Model {
 
 	function getByIdShow($id){
 
-		$statement = $this->db->query('SELECT * FROM `cast` c INNER JOIN show_cast sc ON c.id_trakt = sc.cast_id WHERE sc.show_id ='. $id);
+		$statement = $this->db->query('SELECT * FROM `cast` c INNER JOIN show_cast sc ON c.id_tmdb = sc.cast_id WHERE sc.show_id ='. $id);
 
 		$data = $statement->fetchAll();
 
