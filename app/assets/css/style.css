@@ -322,9 +322,8 @@ footer .fb img {
 }
 
 .loader {
-  margin: 6em auto;
   font-size: 10px;
-  position: relative;
+  position: absolute;
   text-indent: -9999em;
   border-top: 1.1em solid rgba(255, 255, 255, 0.2);
   border-right: 1.1em solid rgba(255, 255, 255, 0.2);
@@ -361,6 +360,29 @@ footer .fb img {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+.loader-home {
+  display: none;
+  left: 45%;
+  top:35%;
+}
+
+.select-show {
+   transform: translate(70%, 0%);
+   top:45vh;
+   width:40%;
+   position: absolute;
+}
+
+.select-show li{
+  display: inline-block;
+  margin:0 10px;
+  cursor:pointer;
+}
+
+.select-show img{
+  width:90px;
 }
 
 /*# sourceMappingURL=style.css.map */

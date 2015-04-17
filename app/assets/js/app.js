@@ -83,7 +83,7 @@ var cherry = function () {
 			mouseenter: function (e) {
 
 				that.oldvalue = that.showSearch.val();
-				var newValue = $(this).text();
+				var newValue = $(this).data('name');
 
 				that.showSearch.val(newValue);
 
@@ -103,6 +103,9 @@ var cherry = function () {
 				that.showSearch.val($(this).text());
 				that.loading = 'loading';
 				that.selectFirstShow(that.showData.data[$(this).data('id')]);
+
+				$('#formShow').fadeOut();
+				$('.loader-home').fadeIn();
 			}
 
 
@@ -120,9 +123,11 @@ var cherry = function () {
 				data: {
 					data: data
 				},
-				success: function (data) {
-					console.log(data);
+				success: function (succ) {
+
 					that.loading = 'finish';
+					console.log(data);
+					window.location.assign('compare/'+ data.show.ids.trakt);
 				},
 				error: function (err) {
 					console.log(err);
@@ -150,7 +155,7 @@ var cherry = function () {
 						
 						for(var i = 0; i < 3; i++) {
 
-							that.selectShowUl.append('<li class="showname" data-id="' + i + '"><img src="' + data.data[i].show.images.poster.medium + '" alt="" width="72px"/><h2>' + data.data[i].show.title + '</h2></li>');
+							that.selectShowUl.append('<li class="showname" data-name="'+ data.data[i].show.title + '" data-id="' + i + '"><img src="' + data.data[i].show.images.poster.medium + '" alt=""/></li>');
 						}
 
 					} else {

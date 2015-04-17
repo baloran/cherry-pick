@@ -1,11 +1,11 @@
 <section class="bloc1">
 	<h2>Cherrypick is a new website to compare two Tv shows thanks to datavisualisation !</h2>
-	<form action="search">
+	<form action="search" id="formShow">
 		<input type="text" name="series1" class="series1" placeholder='Cherchez une série. Ex:"The Walking Dead"' id="show">
-		<div class="select-show"><ul></ul></div>
 		</br>
-		<input type="submit" class="start" value="Start the experience">
+		<div class="select-show"><ul></ul></div>
 	</form>
+	<div class="loader-home loader"></div>
 	<div class="filter"></div>
 </section>
 <section class="bloc2">

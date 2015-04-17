@@ -44,7 +44,7 @@
 								<img src="img/rick.png" alt="Rick">
 								<div class="meta">
 									<h5><?= $cast->character_name ?></h5>
-									<span>Andrew Lincolm</span>
+									<span><?= $cast->person ?></span>
 								</div>
 							</li>
 						<?php endforeach ?>
@@ -83,6 +83,7 @@
 		<article class="fullpage data">
 				<div class="four-column">
 					<h2>DATE</h2>
+
 				</div>
 				<div class="four-column">
 					<h2>NUMBER SEASONS / EPISODE</h2>
@@ -136,6 +137,19 @@
 			<img src="img/fb.png" alt="facebook">
 		</div>
 	</footer>
+
+	if (isset($compare_show) && (count($show->seasons) < count($compare_show->seasons))){
+	foreach ($compare_seasons-> as $_season) {
+		array_push($array, $_season);
+	}
+	echo $array;
+}
+else {
+	foreach ($show->seasons as $_season) {
+		array_push($array, $_season);
+	}
+	echo $array;
+}
 
 		<script>
 		////////////////// DONUT N°1 /////////////////////
@@ -229,7 +243,7 @@
             pointStrokeColor: "rgba(60,107,147,1)",
             pointHighlightFill: "rgba(60,107,147,1)",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [4, 4, 4.2, 3]
+            data: [4, <?= $show->score / 20 ?>, 4.2, 3]
         },
         {
             label: "Yellow",
