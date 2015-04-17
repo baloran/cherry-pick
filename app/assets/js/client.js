@@ -1,6 +1,9 @@
 $( "#animation" ).click(function() {
   $( "#go_left, #go_right" ).addClass('opened', function () {
-  	$('.container').css("display", 'none');
+  	
+  	setTimeout(function() {
+	      $('.container').css("display", 'none');
+	}, 1000);
   });
 
 
@@ -31,3 +34,8 @@ $(".nav").fadeTo(1500,0);
 //      }
 // });
 
+// $(document).load(function () {
+
+// 	$('.loading').fadeOut();
+// 	$('.container').fadeIn();
+// });

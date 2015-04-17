@@ -13,22 +13,11 @@ Class Site Extends cpController {
 		$this->partials('home');
 	}
 
-	public function getInfo ($id) {
-
-		$api = new api();
-
-		$data = json_decode($api->getAllInfo($id));
-
-		if ($data->code == 404) {
-			
-			header('Location: '.BASE_PATH);
-			exit();
-
-		}
-
-		$this->data->show = $data->data;
+	public function getInfo ($data) {
 
 		$this->data->css = 'style2';
+
+		$this->data->show = $data->show;
 
 		$this->partials('compare');
 	}

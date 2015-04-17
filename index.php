@@ -43,12 +43,32 @@
 
 	}
 
-	else if(preg_match('/^compare\/[\w-]+$/i', $q)) {
+	else if(preg_match('/^compare\/([\w-]+\/)+$/i', $q)) {
 			
 		$slug = explode('/', $q);
 
+		$data = new stdClass();
+
 		$site = new Site();
-		$data = $site->getInfo($slug[1]);
+
+		$api = new api();
+
+		$data->show = json_decode($api->getAllInfo($slug[1]));
+
+		if ($data->show->code == 404) {
+			
+			header('Location: '.BASE_PATH);
+			exit();
+
+		}
+
+		$data->show = $data->show->data;
+
+		if (!empty($slug[2])) {
+			$caca = $api->getAllInfo($slug[2]);
+		}
+
+		$site->getInfo($data);
 
 	}
 

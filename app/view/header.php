@@ -7,6 +7,8 @@
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,100italic,300italic,400italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+
 	<script src="<?= base_url() ?>app/assets/js/Chart.min.js"></script>
 </head>
 <body>

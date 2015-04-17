@@ -1,3 +1,4 @@
+<div class="loading loading-home"></div>
 <section class="container">
 		<div class="go_left" id="go_left">
 			<div class="content">
@@ -28,7 +29,7 @@
 						<h3><?= $show->title ?></h3>
 					</div>
 					<div class="serie2">
-						<h3>The walking dead</h3>
+						<h3 id="title_show"></h3>
 					</div>
 					<div class="middle">VS</div>
 				</div>
@@ -41,7 +42,7 @@
 					<ul class="actor">
 						<?php foreach ($show->cast as $cast): ?>
 							<li>
-								<img src="img/rick.png" alt="Rick">
+								<img src="https://image.tmdb.org/t/p/w396<?= $cast->image ?>" alt="<?= $cast->character_name ?>">
 								<div class="meta">
 									<h5><?= $cast->character_name ?></h5>
 									<span><?= $cast->person ?></span>
@@ -49,9 +50,12 @@
 							</li>
 						<?php endforeach ?>
 					</ul>
-					<h4>Detective</h4>
-					<p><?= $show->overview ?></p>
+					<div class="overview">
+						<h4><?= $show->genres ?></h4>
+						<p><?= $show->overview ?></p>
+					</div>
 				</div>
+				<?php if (isset($compare_show)): ?>
 				<div class="right text-left">
 					<ul class="actor" id="actors">
 						<li>
@@ -79,6 +83,15 @@
 					<h4 id="genre">Horror</h4>
 					<p id="overview">This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc.</p>
 				</div>
+				<?php else: ?>
+				<div class="right text-left">
+					<form action="search" id="formShow">
+						<input type="text" name="series1" class="series1" placeholder='Cherchez une série. Ex:"The Walking Dead"' id="show">
+						</br>
+						<div class="select-show"><ul></ul></div>
+					</form>
+				</div>
+				<?php endif; ?>
 			</article>
 		<article class="fullpage data">
 				<div class="four-column">

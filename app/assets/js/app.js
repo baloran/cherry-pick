@@ -111,6 +111,11 @@ var cherry = function () {
 
 		}, '.showname');
 
+		$('#secondShowCompare').on( 'submit', function () {
+
+			window.location.assign('compare/' + window.location.assign('compare/'+ $(this).data('first') + '/' + $('#second_show_value')));
+		});
+
 	};
 
 	this.selectFirstShow = function (data) {
@@ -127,7 +132,7 @@ var cherry = function () {
 
 					that.loading = 'finish';
 					console.log(data);
-					window.location.assign('compare/'+ data.show.ids.trakt);
+					window.location.assign('compare/'+ data.show.ids.trakt+ '/');
 				},
 				error: function (err) {
 					console.log(err);

@@ -75,7 +75,7 @@ Class ShowModel Extends Model {
 		$s_prepare->execute();
 		$shows = $s_prepare->fetch();
 
-		$c_prepare = $this->db->prepare('SELECT * FROM `cast` c INNER JOIN show_cast sc ON c.id_trakt = sc.cast_id WHERE sc.show_id = :id LIMIT 3');
+		$c_prepare = $this->db->prepare('SELECT * FROM `cast` c INNER JOIN show_cast sc ON c.id_tmdb = sc.cast_id WHERE sc.show_id = :id LIMIT 3');
 		$c_prepare->bindParam(':id', $id);
 		$c_prepare->execute();
 		$casts = $c_prepare->fetchAll();
